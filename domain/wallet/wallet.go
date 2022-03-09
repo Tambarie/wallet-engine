@@ -6,47 +6,55 @@ import (
 )
 
 type User struct {
-	ID           string `json:"id"`
-	FirstName    string `json:"first_name"`
-	LastName     string `json:"last_name"`
-	Email        string `json:"email"`
-	Password     string `json:"password" sql:"-"`
-	HashPassword string `json:"-" sql:"password"`
-	CreatedAt    int64  `json:"created_at"`
-	UpdatedAt    int64  `json:"updated_at"`
-}
-
-type Repository interface {
-	Get(id string) (*User, error)
-	Create(u *User) (*User, error)
-	GetUserByEmail(email string) (*User, error)
+	ID              string `json:"id"`
+	FirstName       string `json:"first_name"`
+	LastName        string `json:"last_name"`
+	Email           string `json:"email"`
+	BVN             string `json:"bvn"`
+	Currency        string `json:"currency"`
+	SecretKey       int64  `json:"-"`
+	HashedSecretKey string `bson:"hashed_secret_key"`
+	DateOfBirth     int64  `json:"date_of_birth"`
+	CreatedAt       string `json:"created_at"`
 }
 
 func (u *User) ToDtoResponse() dto.User {
 	return dto.User{
-		ID:        u.ID,
-		FirstName: u.FirstName,
-		LastName:  u.LastName,
-		Email:     u.Email,
-		CreatedAt: u.CreatedAt,
-		UpdatedAt: u.UpdatedAt,
+		ID:          u.ID,
+		FirstName:   u.FirstName,
+		LastName:    u.LastName,
+		BVN:         u.BVN,
+		Currency:    u.Currency,
+		SecretKey:   u.SecretKey,
+		DateOfBirth: u.DateOfBirth,
+		CreatedAt:   u.CreatedAt,
 	}
 }
+
 func (u *User) MarshalJSON() ([]byte, error) {
 	return json.Marshal(&struct {
-		ID           string `json:"id"`
-		FirstName    string `json:"first_name"`
-		LastName     string `json:"last_name"`
-		Email        string `json:"email"`
-		Password     string `json:"password"`
-		HashPassword string `json:"-"`
-		CreatedAt    int64  `json:"created_at"`
-		UpdatedAt    int64  `json:"updated_at"`
+		ID          string `json:"id"`
+		FirstName   string `json:"first_name"`
+		LastName    string `json:"last_name"`
+		Email       string `json:"email"`
+		BVN         string `json:"bvn"`
+		Currency    string `json:"currency"`
+		SecretKey   int64  `json:"-"`
+		DateOfBirth int64  `json:"date_of_birth"`
+		CreatedAt   string `json:"created_at"`
 	}{
-		ID:        u.ID,
-		FirstName: u.FirstName,
-		LastName:  u.LastName,
-		Email:     u.Email,
-		CreatedAt: u.CreatedAt,
+		ID:          u.ID,
+		FirstName:   u.FirstName,
+		LastName:    u.LastName,
+		Email:       u.Email,
+		BVN:         u.BVN,
+		Currency:    u.Currency,
+		SecretKey:   u.SecretKey,
+		DateOfBirth: u.DateOfBirth,
+		CreatedAt:   u.CreatedAt,
 	})
+}
+
+type Repository interface {
+	CreateWallet(u *User) (*User, error)
 }
