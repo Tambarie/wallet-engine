@@ -10,9 +10,7 @@ import (
 )
 
 type WalletService interface {
-	Get(id string) (dto.User, error)
-	Create(userDto *dto.User) (dto.User, error)
-	CheckUserExists(email string) (dto.User, bool)
+	CreateWallet(userDto *dto.User) (dto.User, error)
 }
 
 type DefaultWalletService struct {
@@ -25,31 +23,20 @@ func NewWalletService(repo wallet.Repository) *DefaultWalletService {
 	}
 }
 
-func (u *DefaultWalletService) Get(id string) (dto.User, error) {
-	userInfo, err := u.repo.Get("iuyrwe")
-	return userInfo.ToDtoResponse(), err
-}
-
-func (u *DefaultWalletService) Create(userDto *dto.User) (dto.User, error) {
-	hashP, err := helpers.GenerateHashPassword(userDto.Password)
+func (u *DefaultWalletService) CreateWallet(userDto *dto.User) (dto.User, error) {
+	hashP, err := helpers.GenerateHashPassword(string(userDto.SecretKey))
 	if err != nil {
 		log.Printf("An error occurred: %v", err.Error())
 		return *userDto, err
 	}
 	userObject := wallet.User{
-		ID:           uuid.NewString(),
-		FirstName:    userDto.FirstName,
-		LastName:     userDto.LastName,
-		Email:        userDto.Email,
-		HashPassword: string(hashP),
-		CreatedAt:    time.Now().Unix(),
-		UpdatedAt:    time.Now().Unix(),
+		ID:              uuid.NewString(),
+		FirstName:       userDto.FirstName,
+		LastName:        userDto.LastName,
+		Email:           userDto.Email,
+		HashedSecretKey: string(hashP),
+		CreatedAt:       time.Now(),
 	}
-	userDB, err := u.repo.Create(&userObject)
+	userDB, err := u.repo.CreateWallet(&userObject)
 	return userDB.ToDtoResponse(), err
-}
-
-func (u *DefaultWalletService) CheckUserExists(email string) (dto.User, bool) {
-	_, err := u.repo.GetUserByEmail(email)
-	return dto.User{}, err == nil
 }
