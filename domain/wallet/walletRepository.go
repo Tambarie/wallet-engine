@@ -15,14 +15,6 @@ func NewWalletRepositoryDB(client *mongo.Client) *RepositoryDB {
 	}
 }
 
-func (walletRepo *RepositoryDB) Get(id string) (*User, error) {
-	return nil, nil
-}
-
-func (walletRepo *RepositoryDB) Create(u *User) (*User, error) {
-	return u, nil
-}
-
-func (walletRepo *RepositoryDB) GetUserByEmail(email string) (*User, error) {
+func (walletRepo *RepositoryDB) CreateWallet(u *User) (*User, error) {
 	return nil, nil
 }
