@@ -19,7 +19,7 @@ func Start() {
 
 	db := mongoDB.Init()
 	h := handler.Handler{
-		WalletService: service.NewWalletService(wallet.NewUserRepositoryDB(db)),
+		WalletService: service.NewWalletService(wallet.NewWalletRepositoryDB(db)),
 	}
 	DefineRouter(router, &h)
 	PORT := fmt.Sprintf(":%s", os.Getenv("service_port"))
