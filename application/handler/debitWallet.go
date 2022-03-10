@@ -35,8 +35,10 @@ func (h *Handler) DebitWallet() gin.HandlerFunc {
 		}
 
 		var hashedPassword string
+		var checkIfUserActive bool
 		for _, user := range userDB {
 			hashedPassword = user.HashedSecretKey
+			checkIfUserActive = user.IsActive
 		}
 
 		if correct := helpers.CheckPasswordHash(transaction.Password, []byte(hashedPassword)); correct {
@@ -44,7 +46,14 @@ func (h *Handler) DebitWallet() gin.HandlerFunc {
 			return
 		}
 
-		account := &wallet.Account{}
+		account := &wallet.Wallet{}
+		wUser := &wallet.User{}
+		wUser.IsActive = checkIfUserActive
+
+		if wUser.IsActive == false {
+			response.JSON(context, http.StatusNotFound, nil, []string{"Sorry, your account is not active"}, "")
+			return
+		}
 
 		// query db for balance
 		t, err := h.WalletService.GetAccountBalance(userID)
@@ -57,7 +66,7 @@ func (h *Handler) DebitWallet() gin.HandlerFunc {
 
 		account.Balance = currentBalance
 		log.Println(account.Balance)
-		if account.Balance < 0 {
+		if account.Balance <= 0 {
 			response.JSON(context, http.StatusNotFound, nil, []string{"Sorry, your account is insufficient for this transaction"}, "")
 			return
 		}
