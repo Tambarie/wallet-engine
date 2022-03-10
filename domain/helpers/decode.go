@@ -15,7 +15,7 @@ func Decode(c *gin.Context, v interface{}) []string {
 				errs = append(errs, servererrors.NewFieldError(fieldErr).String())
 			}
 		} else {
-			errs = append(errs, "internal server error")
+			errs = append(errs, "internal server error: "+err.Error())
 		}
 		return errs
 	}
