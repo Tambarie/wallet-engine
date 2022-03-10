@@ -46,6 +46,9 @@ func initializeRouter() *gin.Engine {
 }
 
 func DefineRouter(router *gin.Engine, handler *handler.Handler) {
-	//apiRouter := router.Group("/api/v1")
+	apiRouter := router.Group("/api/v1")
+	apiRouter.POST("/createWallet", handler.CreateUser())
+	apiRouter.POST("/creditWallet/:user-reference", handler.CreditWallet())
+	apiRouter.POST("/debitWallet/:user-reference", handler.DebitWallet())
 
 }
