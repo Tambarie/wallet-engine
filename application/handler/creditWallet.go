@@ -16,6 +16,7 @@ func (h *Handler) CreditWallet() gin.HandlerFunc {
 		userID := context.Param("user-reference")
 
 		transaction := &wallet.Transaction{}
+		user := &wallet.User{}
 		transaction.UserID = userID
 		transaction.TransactionReference = uuid.New().String()
 
@@ -35,8 +36,11 @@ func (h *Handler) CreditWallet() gin.HandlerFunc {
 		}
 
 		var hashedPassword string
+		var checkIfUserActive bool
 		for _, user := range userDB {
 			hashedPassword = user.HashedSecretKey
+			checkIfUserActive = user.IsActive
+
 		}
 
 		if correct := helpers.CheckPasswordHash(transaction.Password, []byte(hashedPassword)); correct {
@@ -44,7 +48,15 @@ func (h *Handler) CreditWallet() gin.HandlerFunc {
 			return
 		}
 
-		account := &wallet.Account{}
+		account := &wallet.Wallet{}
+		wUser := &wallet.User{}
+		wUser.IsActive = checkIfUserActive
+
+		log.Println(user.IsActive)
+		if wUser.IsActive == false {
+			response.JSON(context, http.StatusNotFound, nil, []string{"sorry, please activate your account"}, "")
+			return
+		}
 
 		// query db for balance
 		t, err := h.WalletService.GetAccountBalance(userID)
@@ -56,7 +68,6 @@ func (h *Handler) CreditWallet() gin.HandlerFunc {
 		}
 
 		account.Balance = currentBalance
-		log.Println(account.Balance)
 		account.CreditUserWallet(transaction.Amount, transaction.UserID)
 
 		userTransaction, err := h.WalletService.SaveTransaction(transaction)
