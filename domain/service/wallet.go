@@ -10,8 +10,9 @@ type WalletService interface {
 	CheckUserExists(email string) ([]*wallet.User, error)
 	CheckIfPasswordExists(userReference string) ([]*wallet.User, error)
 	SaveTransaction(t *wallet.Transaction) (*wallet.Transaction, error)
-	PostToAccount(a *wallet.Account) (*wallet.Account, error)
-	GetAccountBalance(userID string) ([]*wallet.Account, error)
+	PostToAccount(a *wallet.Wallet) (*wallet.Wallet, error)
+	GetAccountBalance(userID string) ([]*wallet.Wallet, error)
+	ChangeUserStatus(isActive bool, userReference string) (interface{}, error)
 }
 
 type DefaultWalletService struct {
@@ -36,7 +37,7 @@ func (u *DefaultWalletService) CheckIfPasswordExists(userReference string) ([]*w
 	return u.repo.CheckIfPasswordExists(userReference)
 }
 
-func (u *DefaultWalletService) PostToAccount(a *wallet.Account) (*wallet.Account, error) {
+func (u *DefaultWalletService) PostToAccount(a *wallet.Wallet) (*wallet.Wallet, error) {
 	return u.repo.PostToAccount(a)
 }
 
@@ -44,6 +45,10 @@ func (u *DefaultWalletService) SaveTransaction(t *wallet.Transaction) (*wallet.T
 	return u.repo.SaveTransaction(t)
 }
 
-func (u *DefaultWalletService) GetAccountBalance(userID string) ([]*wallet.Account, error) {
+func (u *DefaultWalletService) GetAccountBalance(userID string) ([]*wallet.Wallet, error) {
 	return u.repo.GetAccountBalance(userID)
+}
+
+func (u *DefaultWalletService) ChangeUserStatus(isActive bool, userReference string) (interface{}, error) {
+	return u.repo.ChangeUserStatus(isActive, userReference)
 }
