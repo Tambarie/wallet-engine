@@ -3,11 +3,11 @@ package auth
 //import (
 //	"encoding/json"
 //	"errors"
-//	"github.com/Tambarie/wallet-engine/application/handler"
-//	"github.com/Tambarie/wallet-engine/application/helpers"
-//	"github.com/Tambarie/wallet-engine/application/server"
-//	"github.com/Tambarie/wallet-engine/dto"
-//	"github.com/Tambarie/wallet-engine/service"
+//	"github.com/Tambarie/walletRepo-engine/application/handler"
+//	"github.com/Tambarie/walletRepo-engine/application/helpers"
+//	"github.com/Tambarie/walletRepo-engine/application/server"
+//	"github.com/Tambarie/walletRepo-engine/dto"
+//	"github.com/Tambarie/walletRepo-engine/service"
 //	"github.com/gin-gonic/gin"
 //	"github.com/golang/mock/gomock"
 //	"github.com/stretchr/testify/assert"
@@ -48,32 +48,32 @@ package auth
 //		assert.Contains(t, resp.Body.String(), "validation failed on field 'LastName', condition: required")
 //		assert.Contains(t, resp.Body.String(), "validation failed on field 'Password', condition: required")
 //	})
-//	wallet := dto.User{
+//	walletRepo := dto.User{
 //		FirstName: "John",
 //		LastName:  "Doe",
 //		Email:     "jdoe@gmail.com",
 //		Password:  "password",
 //	}
-//	u, _ = json.Marshal(wallet)
+//	u, _ = json.Marshal(walletRepo)
 //
 //	t.Run("Test_for_User_already_exists", func(t *testing.T) {
-//		m.mock.EXPECT().CheckUserExists(wallet.Email).Return(wallet, true)
+//		m.mock.EXPECT().CheckUserExists(walletRepo.Email).Return(walletRepo, true)
 //		resp := httptest.NewRecorder()
 //		sendRequest(t, m.router, http.MethodPost, "/api/v1/register", u, resp)
 //		assert.Contains(t, resp.Body.String(), "Email already exists")
 //		assert.Equal(t, http.StatusBadRequest, resp.Code)
 //	})
 //	t.Run("Test_for_failed_registration", func(t *testing.T) {
-//		m.mock.EXPECT().CheckUserExists(wallet.Email).Return(wallet, false)
-//		m.mock.EXPECT().Create(&wallet).Return(wallet, errors.New("an error occurred"))
+//		m.mock.EXPECT().CheckUserExists(walletRepo.Email).Return(walletRepo, false)
+//		m.mock.EXPECT().Create(&walletRepo).Return(walletRepo, errors.New("an error occurred"))
 //		resp := httptest.NewRecorder()
 //		sendRequest(t, m.router, http.MethodPost, "/api/v1/register", u, resp)
 //		assert.Contains(t, resp.Body.String(), "oops!!!, an error occurred")
 //	})
 //
 //	t.Run("Test_for_successful_registration", func(t *testing.T) {
-//		m.mock.EXPECT().CheckUserExists(wallet.Email).Return(wallet, false)
-//		m.mock.EXPECT().Create(&wallet).Return(wallet, nil)
+//		m.mock.EXPECT().CheckUserExists(walletRepo.Email).Return(walletRepo, false)
+//		m.mock.EXPECT().Create(&walletRepo).Return(walletRepo, nil)
 //		resp := httptest.NewRecorder()
 //		sendRequest(t, m.router, http.MethodPost, "/api/v1/register", u, resp)
 //		assert.Contains(t, resp.Body.String(), "Registration Successful")
@@ -109,13 +109,13 @@ package auth
 //		assert.Contains(t, resp.Body.String(), "Email does not exists")
 //		assert.Equal(t, http.StatusBadRequest, resp.Code)
 //	})
-//	wallet := dto.User{
+//	walletRepo := dto.User{
 //		Email:        "jdoe@gmail.com",
 //		HashPassword: "string(hashP)",
 //	}
 //	t.Run("Test_for_incorrect_Password", func(t *testing.T) {
 //
-//		m.mock.EXPECT().CheckUserExists(request.Email).Return(wallet, true)
+//		m.mock.EXPECT().CheckUserExists(request.Email).Return(walletRepo, true)
 //		resp := httptest.NewRecorder()
 //		sendRequest(t, m.router, http.MethodPost, "/api/v1/login", u, resp)
 //		assert.Contains(t, resp.Body.String(), "Incorrect Password")
@@ -123,13 +123,13 @@ package auth
 //	})
 //
 //	hashP, _ := helpers.GenerateHashPassword(request.Password)
-//	wallet = dto.User{
+//	walletRepo = dto.User{
 //		Email:        "jdoe@gmail.com",
 //		HashPassword: string(hashP),
 //	}
 //	t.Run("Test_for_incorrect_Password", func(t *testing.T) {
 //
-//		m.mock.EXPECT().CheckUserExists(request.Email).Return(wallet, true)
+//		m.mock.EXPECT().CheckUserExists(request.Email).Return(walletRepo, true)
 //		resp := httptest.NewRecorder()
 //		sendRequest(t, m.router, http.MethodPost, "/api/v1/login", u, resp)
 //		assert.Contains(t, resp.Body.String(), "Login Successful")
