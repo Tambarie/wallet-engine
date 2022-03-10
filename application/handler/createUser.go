@@ -2,7 +2,7 @@ package handler
 
 import (
 	"fmt"
-	helpers2 "github.com/Tambarie/wallet-engine/domain/helpers"
+	helpers "github.com/Tambarie/wallet-engine/domain/helpers"
 	"github.com/Tambarie/wallet-engine/domain/wallet"
 	"github.com/Tambarie/wallet-engine/response"
 	"github.com/gin-gonic/gin"
@@ -16,7 +16,7 @@ func (h *Handler) CreateUser() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		var user = &wallet.User{}
 
-		hashedPassword, err := helpers2.GenerateHashPassword(user.Password)
+		hashedPassword, err := helpers.GenerateHashPassword(user.Password)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -25,7 +25,7 @@ func (h *Handler) CreateUser() gin.HandlerFunc {
 		user.CreatedAt = time.Now().UTC()
 		user.HashedSecretKey = string(hashedPassword)
 
-		if errs := helpers2.Decode(context, &user); errs != nil {
+		if errs := helpers.Decode(context, &user); errs != nil {
 			fmt.Println(errs)
 			response.JSON(context, http.StatusInternalServerError, nil, errs, "")
 			return
