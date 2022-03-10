@@ -9,9 +9,9 @@ type Transaction struct {
 }
 
 type Wallet struct {
-	UserID   string
-	Balance  float64
-	IsActive bool
+	UserID    string
+	Balance   float64
+	Reference string
 }
 
 func (w *Wallet) CreditUserWallet(money float64, userID string) {
