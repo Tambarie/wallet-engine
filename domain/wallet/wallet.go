@@ -8,17 +8,18 @@ type Transaction struct {
 	Password             string
 }
 
-type Account struct {
-	UserID  string
-	Balance float64
+type Wallet struct {
+	UserID   string
+	Balance  float64
+	IsActive bool
 }
 
-func (a *Account) CreditUserWallet(money float64, userID string) {
-	a.UserID = userID
-	a.Balance += money
+func (w *Wallet) CreditUserWallet(money float64, userID string) {
+	w.UserID = userID
+	w.Balance += money
 }
 
-func (a *Account) DebitUserWallet(money float64, userID string) {
-	a.UserID = userID
-	a.Balance -= money
+func (w *Wallet) DebitUserWallet(money float64, userID string) {
+	w.UserID = userID
+	w.Balance -= money
 }
