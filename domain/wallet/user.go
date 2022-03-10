@@ -9,8 +9,8 @@ type User struct {
 	Email           string    `json:"email,omitempty" bson:"email"`
 	BVN             string    `json:"-" bson:"bvn"`
 	Currency        string    `json:"currency"bson:"currency"`
-	Password        string    `json:"-"bson:"password"`
-	HashedSecretKey string    `json:"-"bson:"hashed_secret_key"`
+	Password        string    `json:"-,omitempty"bson:"password"`
+	HashedSecretKey string    `json:"-,omitempty"bson:"hashed_secret_key"`
 	DateOfBirth     string    `json:"date_of_birth" bson:"date_of_birth"`
 	CreatedAt       time.Time `json:"created_at" bson:"created_at"`
 	IsActive        bool      `json:"is_active"bson:"is_active"`
