@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 	"github.com/Tambarie/wallet-engine/application/handler"
-	"github.com/Tambarie/wallet-engine/domain/wallet"
+	"github.com/Tambarie/wallet-engine/application/walletRepo"
+	"github.com/Tambarie/wallet-engine/domain/service"
 	"github.com/Tambarie/wallet-engine/infrastructure/repository/mongoDB"
-	"github.com/Tambarie/wallet-engine/service"
 	"log"
 	"net/http"
 	"os"
@@ -19,7 +19,7 @@ func Start() {
 
 	db := mongoDB.Init()
 	h := handler.Handler{
-		WalletService: service.NewWalletService(wallet.NewWalletRepositoryDB(db)),
+		WalletService: service.NewWalletService(walletRepo.NewWalletRepositoryDB(db)),
 	}
 	DefineRouter(router, &h)
 	PORT := fmt.Sprintf(":%s", os.Getenv("service_port"))
