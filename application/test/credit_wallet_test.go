@@ -14,7 +14,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"time"
 )
 
 func TestCreditWallet(t *testing.T) {
@@ -34,16 +33,6 @@ func TestCreditWallet(t *testing.T) {
 		Password:             "jbkbkxbkx",
 	}
 
-	user := &wallet.User{
-		Reference: "1",
-		FirstName: "King",
-		LastName:  "Pharoah",
-		Password:  "Pharoah",
-		Email:     "Pharoah@egypt.com",
-		BVN:       "222",
-		Currency:  "NGN",
-	}
-
 	marshalledTransaction, err := json.Marshal(transaction)
 	if err != nil {
 		log.Println(err)
@@ -51,6 +40,7 @@ func TestCreditWallet(t *testing.T) {
 	}
 	var userDB []*wallet.User
 	mockService.EXPECT().CheckIfPasswordExists(gomock.Any()).Return(userDB, nil)
+
 	t.Run("testing if password exists", func(t *testing.T) {
 		req, err := http.NewRequest(http.MethodPost, "/api/v1/creditWallet/:user-reference", bytes.NewBuffer(marshalledTransaction))
 		if err != nil {
@@ -61,12 +51,6 @@ func TestCreditWallet(t *testing.T) {
 		router.ServeHTTP(response, req)
 
 		assert.Contains(t, response.Body.String(), "sorry, please activate your account")
-	})
-
-	t.Run("test for account balance", func(t *testing.T) {
-		var walletDB []*wallet.Wallet
-		mockService.EXPECT().GetAccountBalance(gomock.Any()).Return(walletDB)
-
 	})
 
 }
