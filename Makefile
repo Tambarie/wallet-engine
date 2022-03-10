@@ -2,6 +2,6 @@ run: |
 	gofmt -w .
 	go run main.go
 
-mock-service-user:
-	mockgen -source=service/user.go -destination=service/user_mock.go -package=service
+mock-service:
+	mockgen -source=domain/service/wallet.go -destination=domain/service/mock_wallet_engine_db.go -package=service
 
