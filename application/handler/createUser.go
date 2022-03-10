@@ -35,7 +35,6 @@ func (h *Handler) CreateUser() gin.HandlerFunc {
 			log.Println(err)
 			return
 		}
-		fmt.Println("----------------------pl")
 		if len(userDB) == 0 {
 			userD, err := h.WalletService.CreateWallet(user)
 
