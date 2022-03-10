@@ -14,7 +14,6 @@ func (h *Handler) CreditWallet() gin.HandlerFunc {
 	return func(context *gin.Context) {
 
 		userID := context.Param("user-reference")
-
 		transaction := &wallet.Transaction{}
 		user := &wallet.User{}
 		transaction.UserID = userID
@@ -66,10 +65,9 @@ func (h *Handler) CreditWallet() gin.HandlerFunc {
 			currentBalance = user.Balance
 
 		}
-
 		account.Balance = currentBalance
-		account.CreditUserWallet(transaction.Amount, transaction.UserID)
 
+		account.CreditUserWallet(transaction.Amount, transaction.UserID)
 		userTransaction, err := h.WalletService.SaveTransaction(transaction)
 		if err != nil {
 			response.JSON(context, http.StatusNotFound, nil, []string{"could not fetch user reference "}, "")
