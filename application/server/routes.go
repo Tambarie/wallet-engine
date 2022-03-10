@@ -50,5 +50,5 @@ func DefineRouter(router *gin.Engine, handler *handler.Handler) {
 	apiRouter.POST("/createWallet", handler.CreateUser())
 	apiRouter.POST("/creditWallet/:user-reference", handler.CreditWallet())
 	apiRouter.POST("/debitWallet/:user-reference", handler.DebitWallet())
-
+	apiRouter.POST("/activate-deactivate/:user-reference/", handler.ActivateWallet())
 }
