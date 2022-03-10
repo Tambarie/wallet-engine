@@ -7,7 +7,7 @@ import (
 
 type WalletService interface {
 	CreateWallet(userDto *wallet.User) (*wallet.User, error)
-	CheckUserExists(email string) ([]*wallet.User, error)
+	GetUserByEmail(email string) ([]*wallet.User, error)
 	CheckIfPasswordExists(userReference string) ([]*wallet.User, error)
 	SaveTransaction(t *wallet.Transaction) (*wallet.Transaction, error)
 	PostToAccount(a *wallet.Wallet) (*wallet.Wallet, error)
@@ -29,7 +29,7 @@ func (u *DefaultWalletService) CreateWallet(userDto *wallet.User) (*wallet.User,
 	return u.repo.CreateWallet(userDto)
 }
 
-func (u *DefaultWalletService) CheckUserExists(email string) ([]*wallet.User, error) {
+func (u *DefaultWalletService) GetUserByEmail(email string) ([]*wallet.User, error) {
 	return u.repo.GetUserByEmail(email)
 }
 
