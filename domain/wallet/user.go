@@ -13,4 +13,9 @@ type User struct {
 	HashedSecretKey string    `json:"-"bson:"hashed_secret_key"`
 	DateOfBirth     string    `json:"date_of_birth" bson:"date_of_birth"`
 	CreatedAt       time.Time `json:"created_at" bson:"created_at"`
+	IsActive        bool      `json:"is_active"bson:"is_active"`
+}
+
+func (u *User) ActivateDeactivateWallet(activate bool) {
+	u.IsActive = activate
 }
