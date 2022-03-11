@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	helpers "github.com/Tambarie/wallet-engine/domain/helpers"
 	"github.com/Tambarie/wallet-engine/domain/wallet"
 	"github.com/Tambarie/wallet-engine/response"
@@ -19,7 +18,7 @@ func (h *Handler) CreateWallet() gin.HandlerFunc {
 		var user = &wallet.User{}
 		hashedPassword, err := helpers.GenerateHashPassword(user.Password)
 		if err != nil {
-			fmt.Println(err)
+			log.Fatalf("error :%v", err)
 		}
 
 		user.Reference = uuid.New().String()
@@ -28,7 +27,6 @@ func (h *Handler) CreateWallet() gin.HandlerFunc {
 
 		// Binding the json
 		if errs := helpers.Decode(context, &user); errs != nil {
-			fmt.Println(errs)
 			response.JSON(context, http.StatusInternalServerError, nil, errs, "")
 			return
 		}
@@ -36,7 +34,7 @@ func (h *Handler) CreateWallet() gin.HandlerFunc {
 		// Getting user by email
 		userDB, err := h.WalletService.GetUserByEmail(user.Email)
 		if err != nil {
-			log.Println(err)
+			log.Fatalf("error :%v", err)
 			return
 		}
 
@@ -45,7 +43,7 @@ func (h *Handler) CreateWallet() gin.HandlerFunc {
 			userD, err := h.WalletService.CreateWallet(user)
 
 			if err != nil {
-				log.Println(err)
+				log.Fatalf("error :%v", err)
 				return
 			}
 
