@@ -17,6 +17,7 @@ import (
 	"time"
 )
 
+// Test to deactivate and activate wallet
 func TestDeactivateActivate(t *testing.T) {
 	controller := gomock.NewController(t)
 	mockService := service.NewMockWalletService(controller)
