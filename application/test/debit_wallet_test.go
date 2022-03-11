@@ -50,7 +50,7 @@ func TestDebitWallet(t *testing.T) {
 		Password:        "emma",
 		HashedSecretKey: "",
 		DateOfBirth:     "1945-01-12",
-		CreatedAt:       time.Now(),
+		CreatedAt:       time.Now().String(),
 		IsActive:        true,
 	}
 
