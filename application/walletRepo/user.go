@@ -2,6 +2,7 @@ package walletRepo
 
 import "github.com/Tambarie/wallet-engine/domain/wallet"
 
+// Repository interface
 type Repository interface {
 	CreateWallet(u *wallet.User) (*wallet.User, error)
 	GetUserByEmail(email string) ([]*wallet.User, error)
