@@ -10,6 +10,7 @@ import (
 	"log"
 )
 
+// RepositoryDB struct
 type RepositoryDB struct {
 	db *mongo.Client
 }
@@ -21,6 +22,7 @@ func NewWalletRepositoryDB(client *mongo.Client) *RepositoryDB {
 	}
 }
 
+// GetUserByEmail Fetches user based on the email from the database
 func (walletRepo *RepositoryDB) GetUserByEmail(email string) ([]*wallet.User, error) {
 	coll := walletRepo.db.Database("opay").Collection("opay-collection")
 	filter := bson.D{{"email", email}}
@@ -35,6 +37,7 @@ func (walletRepo *RepositoryDB) GetUserByEmail(email string) ([]*wallet.User, er
 	return results, err
 }
 
+// CreateWallet  Creates wallet to the database
 func (walletRepo *RepositoryDB) CreateWallet(u *wallet.User) (*wallet.User, error) {
 	coll := walletRepo.db.Database("opay").Collection("opay-collection")
 	result, err := coll.InsertOne(context.TODO(), u)
@@ -42,6 +45,7 @@ func (walletRepo *RepositoryDB) CreateWallet(u *wallet.User) (*wallet.User, erro
 	return u, err
 }
 
+// CheckIfPasswordExists   Check if the user password exists in the database
 func (walletRepo *RepositoryDB) CheckIfPasswordExists(userReference string) ([]*wallet.User, error) {
 	coll := walletRepo.db.Database("opay").Collection("opay-collection")
 	filter := bson.D{{"reference", userReference}}
@@ -56,6 +60,7 @@ func (walletRepo *RepositoryDB) CheckIfPasswordExists(userReference string) ([]*
 	return results, err
 }
 
+// SaveTransaction Saving the wallet transaction to the database
 func (walletRepo *RepositoryDB) SaveTransaction(t *wallet.Transaction) (*wallet.Transaction, error) {
 	coll := walletRepo.db.Database("opay").Collection("transaction-collection")
 	result, err := coll.InsertOne(context.TODO(), t)
@@ -63,6 +68,7 @@ func (walletRepo *RepositoryDB) SaveTransaction(t *wallet.Transaction) (*wallet.
 	return t, err
 }
 
+// PostToAccount Posting the account details to the database
 func (walletRepo *RepositoryDB) PostToAccount(a *wallet.Wallet) (*wallet.Wallet, error) {
 	coll := walletRepo.db.Database("opay").Collection("account-balance")
 	result, err := coll.InsertOne(context.TODO(), a)
@@ -70,6 +76,7 @@ func (walletRepo *RepositoryDB) PostToAccount(a *wallet.Wallet) (*wallet.Wallet,
 	return a, err
 }
 
+// GetAccountBalance Getting account balance from the database
 func (walletRepo *RepositoryDB) GetAccountBalance(userID string) ([]*wallet.Wallet, error) {
 	coll := walletRepo.db.Database("opay").Collection("account-balance")
 
@@ -86,7 +93,9 @@ func (walletRepo *RepositoryDB) GetAccountBalance(userID string) ([]*wallet.Wall
 
 }
 
+// ChangeUserStatus Updating user status from the database
 func (walletRepo *RepositoryDB) ChangeUserStatus(isActive bool, userReference string) (interface{}, error) {
+
 	coll := walletRepo.db.Database("opay").Collection("opay-collection")
 
 	filter := bson.D{{"reference", userReference}}
