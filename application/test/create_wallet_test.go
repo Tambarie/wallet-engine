@@ -16,6 +16,7 @@ import (
 	"testing"
 )
 
+// Test to create wallet
 func TestCreateWallet(t *testing.T) {
 
 	controller := gomock.NewController(t)
