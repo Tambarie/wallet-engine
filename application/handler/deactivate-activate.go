@@ -13,6 +13,8 @@ func (h *Handler) ActivateWallet() gin.HandlerFunc {
 		activate := context.Query("activate")
 
 		user := &wallet.User{}
+
+		// setting message to be sent as response
 		var message string
 		var status bool
 		if activate == "true" {
@@ -23,6 +25,8 @@ func (h *Handler) ActivateWallet() gin.HandlerFunc {
 			status = false
 
 		}
+
+		// Handles activation and deactivation of the wallet
 		user.ActivateDeactivateWallet(status)
 		_, err := h.WalletService.ChangeUserStatus(user.IsActive, userReference)
 		if err != nil {
