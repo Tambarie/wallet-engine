@@ -23,7 +23,7 @@ func (h *Handler) CreateWallet() gin.HandlerFunc {
 		}
 
 		user.Reference = uuid.New().String()
-		user.CreatedAt = time.Now().UTC()
+		user.CreatedAt = time.Now().Format("2006-01-02 15:04:05")
 		user.HashedSecretKey = string(hashedPassword)
 
 		// Binding the json
