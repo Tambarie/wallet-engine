@@ -11,9 +11,8 @@ type Transaction struct {
 
 // Wallet struct
 type Wallet struct {
-	UserID    string
-	Balance   float64
-	Reference string
+	UserID  string
+	Balance float64
 }
 
 // CreditUserWallet Credits the user data
