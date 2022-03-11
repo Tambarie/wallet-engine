@@ -59,7 +59,8 @@ func TestCreateWallet(t *testing.T) {
 			t.Errorf("expected %v but got %v", http.StatusCreated, response.Code)
 		}
 
-		var responseBodyTwo = `"email":"Pharoah@egypt.com","currency":"NGN","date_of_birth":"","created_at":"0001-01-01T00:00:00Z"`
+		log.Println(response.Body)
+		var responseBodyTwo = `"reference":"1","first_name":"King","last_name":"Pharoah","email":"Pharoah@egypt.com"`
 		if !strings.Contains(response.Body.String(), responseBodyTwo) {
 			t.Errorf("Expected body to contain %s", responseBodyTwo)
 		}
