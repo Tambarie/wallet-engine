@@ -72,14 +72,14 @@ func (h *Handler) DebitWallet() gin.HandlerFunc {
 
 		account.Balance = currentBalance
 
-		// checking if the account balance is less than N0:00
+		//checking if the account balance is less than N0:00
 		if account.Balance <= 0 {
 			response.JSON(context, http.StatusNotFound, nil, []string{"Sorry, your account is insufficient for this transaction"}, "")
 			return
 		}
 
 		// check if the debit amount is greater than the balance
-		if transaction.Amount < account.Balance {
+		if account.Balance < transaction.Amount {
 			response.JSON(context, http.StatusNotFound, nil, []string{"Sorry, your account is insufficient for this transaction"}, "")
 			return
 		}
