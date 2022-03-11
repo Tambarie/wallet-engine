@@ -11,6 +11,7 @@ import (
 	"time"
 )
 
+// Init setting up mongDB
 func Init() *mongo.Client {
 
 	mongoURL := fmt.Sprintf("%s://%s:%s", os.Getenv("db_type"), os.Getenv("mongo_db_host"), os.Getenv("mongo_db_port"))
@@ -18,7 +19,6 @@ func Init() *mongo.Client {
 	mongoTimeout := time.Minute * 15
 
 	// using go mongo-driver  to connect to mongoDB
-
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(mongoTimeout))
 	defer cancel()
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI(mongoURL))
@@ -27,6 +27,5 @@ func Init() *mongo.Client {
 	}
 
 	log.Println("Database Connected Successfully...")
-
 	return client
 }
