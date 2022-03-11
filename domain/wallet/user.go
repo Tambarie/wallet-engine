@@ -2,6 +2,7 @@ package wallet
 
 import "time"
 
+// User struct
 type User struct {
 	Reference       string    `json:"reference,omitempty" bson:"reference"`
 	FirstName       string    `json:"first_name,omitempty" bson:"first_name""`
@@ -16,6 +17,7 @@ type User struct {
 	IsActive        bool      `json:"is_active"bson:"is_active"`
 }
 
+// ActivateDeactivateWallet Method to activate/deactivate user
 func (u *User) ActivateDeactivateWallet(activate bool) {
 	u.IsActive = activate
 }
