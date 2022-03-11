@@ -17,6 +17,7 @@ import (
 	"time"
 )
 
+// Test to debit wallet
 func TestDebitWallet(t *testing.T) {
 	controller := gomock.NewController(t)
 	mockService := service.NewMockWalletService(controller)
@@ -54,7 +55,7 @@ func TestDebitWallet(t *testing.T) {
 	}
 
 	user.IsActive = true
-	//
+
 	//marshalledUser, err := json.Marshal(&user)
 	//if err != nil{
 	//	log.Fatal(err)
