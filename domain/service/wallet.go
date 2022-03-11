@@ -5,6 +5,7 @@ import (
 	"github.com/Tambarie/wallet-engine/domain/wallet"
 )
 
+// WalletService interface
 type WalletService interface {
 	CreateWallet(userDto *wallet.User) (*wallet.User, error)
 	GetUserByEmail(email string) ([]*wallet.User, error)
@@ -15,6 +16,7 @@ type WalletService interface {
 	ChangeUserStatus(isActive bool, userReference string) (interface{}, error)
 }
 
+// DefaultWalletService struct
 type DefaultWalletService struct {
 	repo walletRepo.Repository
 }
